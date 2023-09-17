@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>VueQuill的改造</title>
+    <link href="/2023/09/17/%E5%B0%81%E8%A3%85VueQuill/"/>
+    <url>/2023/09/17/%E5%B0%81%E8%A3%85VueQuill/</url>
+    
+    <content type="html"><![CDATA[<h1 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h1><blockquote><p>富文本编辑器是一种用于编辑和格式化文本的工具，它提供了丰富的功能和选项，使用户能够轻松地添加和编辑文字、图像、链接和其他多媒体元素。市面上最常见的富文本编辑器比如说Word..</p></blockquote><p>最近使用Vue3+Ts在开发一个论坛项目时,需要使用到富文本编辑器的插入代码块和图片的功能,</p><p>于是上网溜了一圈了找了像wangEditor这样的强大的开源富文本编辑器,兴冲冲地npm下来后发现存在Ts类型声明文件的错误,上issue找了一圈硬是没找到解决办法,猜测可能是d.ts的类型声明文件的缺失。</p><p>之后找啊找,发现了一个叫Vue-Quill的开源富文本编辑器,实际配置下来发现可以兼容我的ts项目,于是就打算用它了！</p><p>不过Vue-Quill的核心功能较简单,需要自己配置拓展,而且我看了大部分的拓展都是用js写的,没有相应的.d.ts类型声明文件…</p><p>无奈之下,一开始我是打算自己从0开始实现一个富文本编辑器的….  后面发现**巨多坑(极多的边界情况需要考虑)**。</p><p>没办法,自己基于Vue-Quill封装一个吧.</p><h1 id="How"><a href="#How" class="headerlink" title="How?"></a>How?</h1><h2 id="在Vue中使用原生DOM进行拓展"><a href="#在Vue中使用原生DOM进行拓展" class="headerlink" title="在Vue中使用原生DOM进行拓展"></a>在Vue中使用原生DOM进行拓展</h2>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Vue</tag>
+      
+      <tag>富文本编辑器</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>前端规范(补充中)</title>
     <link href="/2023/09/17/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/"/>
     <url>/2023/09/17/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/</url>
