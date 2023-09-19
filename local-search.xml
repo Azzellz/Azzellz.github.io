@@ -4,6 +4,31 @@
   
   
   <entry>
+    <title>怎么封装一个Vue3 Ts组件库?</title>
+    <link href="/2023/09/18/%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AAVue3%20Ts%E7%BB%84%E4%BB%B6%E5%BA%93/"/>
+    <url>/2023/09/18/%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AAVue3%20Ts%E7%BB%84%E4%BB%B6%E5%BA%93/</url>
+    
+    <content type="html"><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近被封装组件库这件事折磨了两天,网上的教程大多需要再进行本地调整,于是想总结记录下搭建组件库的过程.</p><h1 id="为什么要使用Ts封装组件库"><a href="#为什么要使用Ts封装组件库" class="headerlink" title="为什么要使用Ts封装组件库?"></a>为什么要使用Ts封装组件库?</h1><p>使用Ts可以让我们在使用组件库的时候获得十分友好的类型提示,习惯使用ts是必要的!</p><h1 id="使用Vite创建一个Vue3-Ts项目"><a href="#使用Vite创建一个Vue3-Ts项目" class="headerlink" title="使用Vite创建一个Vue3+Ts项目"></a>使用Vite创建一个Vue3+Ts项目</h1><p>这里我使用的npm:</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm create vite<br></code></pre></td></tr></table></figure><p>接下来选择Vue模板和Ts模板..</p><p>完成后如下:</p><p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/%E4%BD%BF%E7%94%A8Vite%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE.png" alt="使用Vite创建项目"></p><p>为了演示一个不带文档展示功能的组件库,我们需要精简下项目结构带来可读性</p><p>创建完项目后我们来精简下项目结构:</p><p>删去src下的components文件夹,在项目根目录创建一个packages文件夹来存放我们自己写的组件</p><p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/%E7%B2%BE%E7%AE%80%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84.png" alt="精简项目结构"></p><h1 id="组织packages下的文件夹结构"><a href="#组织packages下的文件夹结构" class="headerlink" title="组织packages下的文件夹结构"></a>组织packages下的文件夹结构</h1><p>这个文件夹在我们封装组件库时非常重要,之后我们使用vite打包的目标目录就是它</p><p>因此提前规划一个组织良好的文件结构非常重要</p><blockquote><p>这里是以我的风格来举例,也可也使用自己的风格来组织</p></blockquote><h2 id="拿Button组件举例"><a href="#拿Button组件举例" class="headerlink" title="拿Button组件举例"></a>拿Button组件举例</h2><p>看如下图:</p><p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/Button%E7%BB%84%E4%BB%B6%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B9%E7%BB%93%E6%9E%84.png" alt="Button组件的文件夹结构"></p><p>我们来分析下Packages是怎么管理Button的:</p><h3 id="packages"><a href="#packages" class="headerlink" title="packages"></a>packages</h3><p>packages根目录下有两个东西,一个是Button文件夹,应该放所有与Button组件相关的内容(比如说逻辑,样式…)</p><p>另一个是index.ts文件,该文件通过各组件文件夹根目录下的index.ts用来统一导出所有组件,也是我们组件库的<strong>核心入口文件。</strong></p><h3 id="Button目录"><a href="#Button目录" class="headerlink" title="Button目录"></a>Button目录</h3><p>根目录下有一个src目录,里面放着Button.vue这个单文件组件,当然这里是举个非常简单的例子,之后应该要拆分样式与逻辑;</p><p>然后像packages一样,也有一个index.ts,用来导出Button组件。</p><h3 id="Button-vue"><a href="#Button-vue" class="headerlink" title="Button.vue"></a>Button.vue</h3><p>这里写了一个非常简单的例子,一个需要props来展示内容的按钮组件</p><p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/Button.vue%E9%87%8C.png" alt="Button.vue里"></p><h3 id="Button下的index-ts"><a href="#Button下的index-ts" class="headerlink" title="Button下的index.ts"></a>Button下的index.ts</h3><p>用来导出src下的Button组件,我们来看看是啥样的:</p><p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/Button%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84index.ts.png" alt="Button目录下的index.ts"></p><p>可以看到我们直接导入了Button.vue这个单文件组件(<strong>好方便!</strong>),然后将这个组件封装成一个单独的注册插件以便<strong>实现按需导入</strong>,最后再导出Button组件本体,这样就提供了两种方式让别人使用我们的组件。</p><h3 id="packages下的index-ts"><a href="#packages下的index-ts" class="headerlink" title="packages下的index.ts"></a>packages下的index.ts</h3><p>来看看它是怎么统一导出的.</p><p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/packages%E4%B8%8B%E7%9A%84index.ts.png" alt="packages下的index.ts"></p><p>在这里我们导入了Button目录下的注册组件的插件,然后再封装成了一个注册插件,并且将其作为<strong>默认导出</strong></p><blockquote><p>因为这里只有一个组件,所以作用看起来不明显,在组件多了之后我们就可以继承各组件的注册插件来封装一个全局安装的插件,就像我们使用的app.use(…)后可以全局使用组件一样，</p></blockquote><p>然后再二次导出Button下的所有内容,这也是为了实现<strong>按需导入。</strong></p><h2 id="使用我们刚封装的Button组件"><a href="#使用我们刚封装的Button组件" class="headerlink" title="使用我们刚封装的Button组件"></a>使用我们刚封装的Button组件</h2><p>接着我们再App.vue中导入一下packages下的Button看看能不能正常使用</p><p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/%E4%BD%BF%E7%94%A8Button%E7%BB%84%E4%BB%B6.png" alt="使用Button组件"></p><p>然后跑起来</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm run dev<br></code></pre></td></tr></table></figure><p>效果图如下:</p><p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/Button%E7%BB%84%E4%BB%B6%E7%9A%84%E6%95%88%E6%9E%9C%E5%9B%BE.png" alt="Button组件的效果图"></p><blockquote><p>这里按钮的样式有点不一样,是因为我用了脚手架自动创建的全局样式</p></blockquote><p>非常好,到这里我们已经完成了本地测试,接下来该打包,发布了。</p><h1 id="配置vite-config-ts打包"><a href="#配置vite-config-ts打包" class="headerlink" title="配置vite.config.ts打包"></a>配置vite.config.ts打包</h1>]]></content>
+    
+    
+    <categories>
+      
+      <category>前端</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Vue</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>VueQuill的改造</title>
     <link href="/2023/09/17/%E5%B0%81%E8%A3%85VueQuill/"/>
     <url>/2023/09/17/%E5%B0%81%E8%A3%85VueQuill/</url>

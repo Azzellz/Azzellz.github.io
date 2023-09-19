@@ -16,23 +16,31 @@
   <meta name="author" content="Tyee">
   <meta name="keywords" content="">
   
-    <meta name="description" content="Why? 富文本编辑器是一种用于编辑和格式化文本的工具，它提供了丰富的功能和选项，使用户能够轻松地添加和编辑文字、图像、链接和其他多媒体元素。市面上最常见的富文本编辑器比如说Word..  最近使用Vue3+Ts在开发一个论坛项目时,需要使用到富文本编辑器的插入代码块和图片的功能, 于是上网溜了一圈了找了像wangEditor这样的强大的开源富文本编辑器,兴冲冲地npm下来后发现存在Ts类型声明文">
+    <meta name="description" content="前言最近被封装组件库这件事折磨了两天,网上的教程大多需要再进行本地调整,于是想总结记录下搭建组件库的过程. 为什么要使用Ts封装组件库?使用Ts可以让我们在使用组件库的时候获得十分友好的类型提示,习惯使用ts是必要的! 使用Vite创建一个Vue3+Ts项目这里我使用的npm: 1npm create vite  接下来选择Vue模板和Ts模板.. 完成后如下:  为了演示一个不带文档展示功能的组">
 <meta property="og:type" content="article">
-<meta property="og:title" content="VueQuill的改造">
-<meta property="og:url" content="https://azzellz.github.io/2023/09/17/%E5%B0%81%E8%A3%85VueQuill/index.html">
+<meta property="og:title" content="怎么封装一个Vue3 Ts组件库?">
+<meta property="og:url" content="https://azzellz.github.io/2023/09/18/%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AAVue3%20Ts%E7%BB%84%E4%BB%B6%E5%BA%93/index.html">
 <meta property="og:site_name" content="Tyee&#39;s">
-<meta property="og:description" content="Why? 富文本编辑器是一种用于编辑和格式化文本的工具，它提供了丰富的功能和选项，使用户能够轻松地添加和编辑文字、图像、链接和其他多媒体元素。市面上最常见的富文本编辑器比如说Word..  最近使用Vue3+Ts在开发一个论坛项目时,需要使用到富文本编辑器的插入代码块和图片的功能, 于是上网溜了一圈了找了像wangEditor这样的强大的开源富文本编辑器,兴冲冲地npm下来后发现存在Ts类型声明文">
+<meta property="og:description" content="前言最近被封装组件库这件事折磨了两天,网上的教程大多需要再进行本地调整,于是想总结记录下搭建组件库的过程. 为什么要使用Ts封装组件库?使用Ts可以让我们在使用组件库的时候获得十分友好的类型提示,习惯使用ts是必要的! 使用Vite创建一个Vue3+Ts项目这里我使用的npm: 1npm create vite  接下来选择Vue模板和Ts模板.. 完成后如下:  为了演示一个不带文档展示功能的组">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2023-09-17T03:25:30.718Z">
-<meta property="article:modified_time" content="2023-09-17T03:58:38.917Z">
+<meta property="og:image" content="https://azzellz.github.io/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/%E4%BD%BF%E7%94%A8Vite%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE.png">
+<meta property="og:image" content="https://azzellz.github.io/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/%E7%B2%BE%E7%AE%80%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="https://azzellz.github.io/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/Button%E7%BB%84%E4%BB%B6%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B9%E7%BB%93%E6%9E%84.png">
+<meta property="og:image" content="https://azzellz.github.io/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/Button.vue%E9%87%8C.png">
+<meta property="og:image" content="https://azzellz.github.io/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/Button%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84index.ts.png">
+<meta property="og:image" content="https://azzellz.github.io/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/packages%E4%B8%8B%E7%9A%84index.ts.png">
+<meta property="og:image" content="https://azzellz.github.io/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/%E4%BD%BF%E7%94%A8Button%E7%BB%84%E4%BB%B6.png">
+<meta property="og:image" content="https://azzellz.github.io/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/Button%E7%BB%84%E4%BB%B6%E7%9A%84%E6%95%88%E6%9E%9C%E5%9B%BE.png">
+<meta property="article:published_time" content="2023-09-18T14:53:37.225Z">
+<meta property="article:modified_time" content="2023-09-19T07:01:29.955Z">
 <meta property="article:author" content="Tyee">
 <meta property="article:tag" content="Vue">
-<meta property="article:tag" content="富文本编辑器">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://azzellz.github.io/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/%E4%BD%BF%E7%94%A8Vite%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE.png">
   
   
   
-  <title>VueQuill的改造 - Tyee&#39;s</title>
+  <title>怎么封装一个Vue3 Ts组件库? - Tyee&#39;s</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -198,7 +206,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="VueQuill的改造"></span>
+            <span id="subtitle" data-typed-text="怎么封装一个Vue3 Ts组件库?"></span>
           
         </div>
 
@@ -209,8 +217,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2023-09-17 11:25" pubdate>
-          2023年9月17日 上午
+        <time datetime="2023-09-18 22:53" pubdate>
+          2023年9月18日 晚上
         </time>
       </span>
     
@@ -221,7 +229,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          464 字
+          1.2k 字
         
       </span>
     
@@ -232,7 +240,7 @@
         
         
         
-          4 分钟
+          11 分钟
         
       </span>
     
@@ -269,21 +277,59 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">VueQuill的改造</h1>
+            <h1 id="seo-header">怎么封装一个Vue3 Ts组件库?</h1>
             
             
               <div class="markdown-body">
                 
-                <h1 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h1><blockquote>
-<p>富文本编辑器是一种用于编辑和格式化文本的工具，它提供了丰富的功能和选项，使用户能够轻松地添加和编辑文字、图像、链接和其他多媒体元素。市面上最常见的富文本编辑器比如说Word..</p>
+                <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>最近被封装组件库这件事折磨了两天,网上的教程大多需要再进行本地调整,于是想总结记录下搭建组件库的过程.</p>
+<h1 id="为什么要使用Ts封装组件库"><a href="#为什么要使用Ts封装组件库" class="headerlink" title="为什么要使用Ts封装组件库?"></a>为什么要使用Ts封装组件库?</h1><p>使用Ts可以让我们在使用组件库的时候获得十分友好的类型提示,习惯使用ts是必要的!</p>
+<h1 id="使用Vite创建一个Vue3-Ts项目"><a href="#使用Vite创建一个Vue3-Ts项目" class="headerlink" title="使用Vite创建一个Vue3+Ts项目"></a>使用Vite创建一个Vue3+Ts项目</h1><p>这里我使用的npm:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm create vite<br></code></pre></td></tr></table></figure>
+
+<p>接下来选择Vue模板和Ts模板..</p>
+<p>完成后如下:</p>
+<p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/%E4%BD%BF%E7%94%A8Vite%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE.png" srcset="/img/loading.gif" lazyload alt="使用Vite创建项目"></p>
+<p>为了演示一个不带文档展示功能的组件库,我们需要精简下项目结构带来可读性</p>
+<p>创建完项目后我们来精简下项目结构:</p>
+<p>删去src下的components文件夹,在项目根目录创建一个packages文件夹来存放我们自己写的组件</p>
+<p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/%E7%B2%BE%E7%AE%80%E9%A1%B9%E7%9B%AE%E7%BB%93%E6%9E%84.png" srcset="/img/loading.gif" lazyload alt="精简项目结构"></p>
+<h1 id="组织packages下的文件夹结构"><a href="#组织packages下的文件夹结构" class="headerlink" title="组织packages下的文件夹结构"></a>组织packages下的文件夹结构</h1><p>这个文件夹在我们封装组件库时非常重要,之后我们使用vite打包的目标目录就是它</p>
+<p>因此提前规划一个组织良好的文件结构非常重要</p>
+<blockquote>
+<p>这里是以我的风格来举例,也可也使用自己的风格来组织</p>
 </blockquote>
-<p>最近使用Vue3+Ts在开发一个论坛项目时,需要使用到富文本编辑器的插入代码块和图片的功能,</p>
-<p>于是上网溜了一圈了找了像wangEditor这样的强大的开源富文本编辑器,兴冲冲地npm下来后发现存在Ts类型声明文件的错误,上issue找了一圈硬是没找到解决办法,猜测可能是d.ts的类型声明文件的缺失。</p>
-<p>之后找啊找,发现了一个叫Vue-Quill的开源富文本编辑器,实际配置下来发现可以兼容我的ts项目,于是就打算用它了！</p>
-<p>不过Vue-Quill的核心功能较简单,需要自己配置拓展,而且我看了大部分的拓展都是用js写的,没有相应的.d.ts类型声明文件…</p>
-<p>无奈之下,一开始我是打算自己从0开始实现一个富文本编辑器的….  后面发现**巨多坑(极多的边界情况需要考虑)**。</p>
-<p>没办法,自己基于Vue-Quill封装一个吧.</p>
-<h1 id="How"><a href="#How" class="headerlink" title="How?"></a>How?</h1><h2 id="在Vue中使用原生DOM进行拓展"><a href="#在Vue中使用原生DOM进行拓展" class="headerlink" title="在Vue中使用原生DOM进行拓展"></a>在Vue中使用原生DOM进行拓展</h2>
+<h2 id="拿Button组件举例"><a href="#拿Button组件举例" class="headerlink" title="拿Button组件举例"></a>拿Button组件举例</h2><p>看如下图:</p>
+<p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/Button%E7%BB%84%E4%BB%B6%E7%9A%84%E6%96%87%E4%BB%B6%E5%A4%B9%E7%BB%93%E6%9E%84.png" srcset="/img/loading.gif" lazyload alt="Button组件的文件夹结构"></p>
+<p>我们来分析下Packages是怎么管理Button的:</p>
+<h3 id="packages"><a href="#packages" class="headerlink" title="packages"></a>packages</h3><p>packages根目录下有两个东西,一个是Button文件夹,应该放所有与Button组件相关的内容(比如说逻辑,样式…)</p>
+<p>另一个是index.ts文件,该文件通过各组件文件夹根目录下的index.ts用来统一导出所有组件,也是我们组件库的<strong>核心入口文件。</strong></p>
+<h3 id="Button目录"><a href="#Button目录" class="headerlink" title="Button目录"></a>Button目录</h3><p>根目录下有一个src目录,里面放着Button.vue这个单文件组件,当然这里是举个非常简单的例子,之后应该要拆分样式与逻辑;</p>
+<p>然后像packages一样,也有一个index.ts,用来导出Button组件。</p>
+<h3 id="Button-vue"><a href="#Button-vue" class="headerlink" title="Button.vue"></a>Button.vue</h3><p>这里写了一个非常简单的例子,一个需要props来展示内容的按钮组件</p>
+<p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/Button.vue%E9%87%8C.png" srcset="/img/loading.gif" lazyload alt="Button.vue里"></p>
+<h3 id="Button下的index-ts"><a href="#Button下的index-ts" class="headerlink" title="Button下的index.ts"></a>Button下的index.ts</h3><p>用来导出src下的Button组件,我们来看看是啥样的:</p>
+<p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/Button%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84index.ts.png" srcset="/img/loading.gif" lazyload alt="Button目录下的index.ts"></p>
+<p>可以看到我们直接导入了Button.vue这个单文件组件(<strong>好方便!</strong>),然后将这个组件封装成一个单独的注册插件以便<strong>实现按需导入</strong>,最后再导出Button组件本体,这样就提供了两种方式让别人使用我们的组件。</p>
+<h3 id="packages下的index-ts"><a href="#packages下的index-ts" class="headerlink" title="packages下的index.ts"></a>packages下的index.ts</h3><p>来看看它是怎么统一导出的.</p>
+<p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/packages%E4%B8%8B%E7%9A%84index.ts.png" srcset="/img/loading.gif" lazyload alt="packages下的index.ts"></p>
+<p>在这里我们导入了Button目录下的注册组件的插件,然后再封装成了一个注册插件,并且将其作为<strong>默认导出</strong></p>
+<blockquote>
+<p>因为这里只有一个组件,所以作用看起来不明显,在组件多了之后我们就可以继承各组件的注册插件来封装一个全局安装的插件,就像我们使用的app.use(…)后可以全局使用组件一样，</p>
+</blockquote>
+<p>然后再二次导出Button下的所有内容,这也是为了实现<strong>按需导入。</strong></p>
+<h2 id="使用我们刚封装的Button组件"><a href="#使用我们刚封装的Button组件" class="headerlink" title="使用我们刚封装的Button组件"></a>使用我们刚封装的Button组件</h2><p>接着我们再App.vue中导入一下packages下的Button看看能不能正常使用</p>
+<p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/%E4%BD%BF%E7%94%A8Button%E7%BB%84%E4%BB%B6.png" srcset="/img/loading.gif" lazyload alt="使用Button组件"></p>
+<p>然后跑起来</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">npm run dev<br></code></pre></td></tr></table></figure>
+
+<p>效果图如下:</p>
+<p><img src="/img/%E5%B0%81%E8%A3%85Vue3Ts%E7%BB%84%E4%BB%B6%E5%BA%93/Button%E7%BB%84%E4%BB%B6%E7%9A%84%E6%95%88%E6%9E%9C%E5%9B%BE.png" srcset="/img/loading.gif" lazyload alt="Button组件的效果图"></p>
+<blockquote>
+<p>这里按钮的样式有点不一样,是因为我用了脚手架自动创建的全局样式</p>
+</blockquote>
+<p>非常好,到这里我们已经完成了本地测试,接下来该打包,发布了。</p>
+<h1 id="配置vite-config-ts打包"><a href="#配置vite-config-ts打包" class="headerlink" title="配置vite.config.ts打包"></a>配置vite.config.ts打包</h1>
                 
               </div>
             
@@ -318,8 +364,6 @@
       
         <a href="/tags/Vue/" class="print-no-link">#Vue</a>
       
-        <a href="/tags/%E5%AF%8C%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8/" class="print-no-link">#富文本编辑器</a>
-      
     </div>
   
 </div>
@@ -330,8 +374,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>VueQuill的改造</div>
-      <div>https://azzellz.github.io/2023/09/17/封装VueQuill/</div>
+      <div>怎么封装一个Vue3 Ts组件库?</div>
+      <div>https://azzellz.github.io/2023/09/18/封装一个Vue3 Ts组件库/</div>
     </div>
     <div class="license-meta">
       
@@ -343,7 +387,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2023年9月17日</div>
+          <div>2023年9月18日</div>
         </div>
       
       
@@ -375,18 +419,12 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2023/09/18/%E5%B0%81%E8%A3%85%E4%B8%80%E4%B8%AAVue3%20Ts%E7%BB%84%E4%BB%B6%E5%BA%93/" title="怎么封装一个Vue3 Ts组件库?">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">怎么封装一个Vue3 Ts组件库?</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2023/09/17/%E5%89%8D%E7%AB%AF%E8%A7%84%E8%8C%83/" title="前端规范(补充中)">
-                        <span class="hidden-mobile">前端规范(补充中)</span>
+                      <a href="/2023/09/17/%E5%B0%81%E8%A3%85VueQuill/" title="VueQuill的改造">
+                        <span class="hidden-mobile">VueQuill的改造</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
